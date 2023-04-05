@@ -156,7 +156,7 @@ def logins(request):
                 print('OTP is =',otp)
                 # MessageHandler(phone_number,otp).send_otp_via_whatsapp()
                 # MessageHandler(phone_number,otp).send_otp_via_message()
-                # send_email_otp(email , otp)
+                send_email_otp(email , otp)
                 cache.set(f'otp_{user.id}', otp, 600)
                 dis = {'action':'loginsotp','otpmethode': 'true' ,'email':email,'readonly':'readonly'}
                 return render(request,'userlogin.html',dis)
