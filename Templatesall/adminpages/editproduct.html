@@ -1,0 +1,165 @@
+{% extends 'adminpages/adminheader.html' %}
+
+
+{% block title %} SHOPPERS Admin HOME {% endblock %}
+
+{% block body %}
+
+<div class="card">
+    <div class="card-header">
+        <strong>Update Product</strong>
+    </div>
+    <div class="card-body card-block">
+        <form action="{% url 'editproduct' product.slug %}" method="post" enctype="multipart/form-data" class="form-horizontal">
+            {% csrf_token %}
+            <div class="card">
+                <div class="card-body card-block">
+
+                    <div class="row form-group">
+                        <div class="col col-md-3"><label for="text-input" class=" form-control-label">Product
+                                name</label>
+                        </div>
+
+                        <input type="hidden" name="slug" value="{{product.slug}}">
+
+
+                        <div class="col-12 col-md-9"><input type="text" id="text-input" name="product_name"
+                                placeholder="Product name" value="{{product.product_name}}" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        <div class="col col-md-3"><label for="select" class=" form-control-label">Category</label>
+                        </div>
+                        <div class="col-12 col-md-9">
+                            <select name="category" id="select" class="form-control" required>
+                                {% for category in categorys %}
+                                <option value="{{category.slug}}"{% if product.category.category_name ==  category.category_name %} selected {% endif %}>
+                                    {{category.category_name}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col col-md-3"><label for="multiple-select" class=" form-control-label">Size
+                                variant</label></div>
+
+                        <!-- <div class="col col-md-9">
+                    <select name="multiple-select" id="multiple-select" multiple="" class="form-control">
+                        {% for sizes in SizeVariants %}
+                        <option value="{{sizes.size_name}}">
+                            {{sizes.size_name}}</option>
+                        {% endfor %}
+                    </select>
+                </div> -->
+
+
+                        <div class="col col-md-9">
+                            {% for sizes in product.product_sizes.all %}
+                            <div id="input-group-1">
+                                <input type="text" placeholder="Name" name="size-variant" value="{{sizes.size_name}}" required>
+                                <input type="number" placeholder="Stock" name="size-price" value="{{sizes.Stock}}" required>
+                            </div>
+                            {% endfor %}
+                            <button type="button" class="btn btn-primary" onclick="addInputGroup()">Add More</button>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col col-md-3"><label for="text-input" class=" form-control-label">Price</label>
+                        </div>
+                        <div class="col-12 col-md-9"><input type="number" id="text-input" name="price"
+                                placeholder="Price" value="{{product.price}}" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        <div class="col col-md-3"><label for="textarea-input" class=" form-control-label">Product
+                                desription</label></div>
+                        <div class="col-12 col-md-9"><input name="product_desription" value="{{product.product_desription}}"
+                                id="textarea-input" rows="9" placeholder="Product desription" class="form-control">
+                        </div>
+                    </div>
+
+<!-- <p>good{{product.category.category_name}}</p> -->
+
+                    <div class="row form-group">
+                        <div class="col col-md-3"><label for="file-multiple-input" class=" form-control-label">
+                              Old  Images</label></div>
+                        <div class="col-12 col-md-9 d-flex justify-content-left">
+                            {% for image in product.product_images.all %}
+                            <div class="user-area ">
+                                <a href="/media/{{image.image}}">
+                                    <img class="user-avatar" id="image" src="/media/{{image.image}}" alt="" >
+                                </a>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="row form-group">
+
+                        <div class="col col-md-3"><label for="file-multiple-input" class=" form-control-label">Multiple
+                                Images</label></div>
+                        <div class="col-12 col-md-9"><input type="file" id="images" 
+                                value=""
+                                name="images" multiple="" onchange="previewImages()" class="form-control-file">
+                                
+                            </div>
+                            <div class="user-area " id="preview">
+
+                            </div>
+                    </div>
+
+                </div>
+                <button type="submit" class="btn btn-warning">Save
+                    Category</button>
+            </div>
+
+        </form>  
+    </div>
+</div>
+
+<script>
+    function previewImages() {
+        const preview = document.getElementById('preview');
+        preview.innerHTML = '';
+
+        const files = document.getElementById('images').files;
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+            const reader = new FileReader();
+
+            reader.addEventListener("load", function () {
+                const img = document.createElement("img");
+                img.src = reader.result;
+                img.classList.add("user-avatar");
+                preview.appendChild(img);
+            }, false);
+
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        }
+    }
+</script>
+
+<script>
+    function addInputGroup() {
+        var inputGroups = document.querySelectorAll("[id^='input-group-']");
+        var lastInputGroup = inputGroups[inputGroups.length - 1];
+        var newInputGroup = lastInputGroup.cloneNode(true);
+        var inputs = newInputGroup.querySelectorAll("input");
+        inputs.forEach(function (input) {
+            input.value = "";
+            input.name = input.name.replace(/\[(\d+)\]/, function (match, p1) {
+                var newIndex = parseInt(p1) + 1;
+                return "[" + newIndex + "]";
+            });
+        });
+        lastInputGroup.after(newInputGroup);
+    }
+</script>
+
+
+
+
+{% endblock %}

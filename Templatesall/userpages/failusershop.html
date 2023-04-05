@@ -1,0 +1,492 @@
+{% extends 'userpages/userheader.html'%}
+
+{% block title %} SHOPPERS SHOP {% endblock %}
+
+{% block body %}
+
+
+<main class="main ">
+    <nav aria-label="breadcrumb" class="breadcrumb-nav mb-2">
+        <div class="container">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'userhome' %}">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Shop</li>
+            </ol>
+        </div><!-- End .container -->
+    </nav><!-- End .breadcrumb-nav -->
+    <div class="page-content bg-lighter ">
+        <div class="container">
+            <div  class="row">
+                <div class="col-lg-9">
+                    <div class="products mb-3">
+                        <div id="product-list" class="row justify-content-center">
+                            {% for product in products %}
+                            <div class="product col-6 col-md-4 col-lg-4 ">
+                                <div class=" text-center">
+                                    <figure class="product-media">
+                                        <a href="{% url 'get_products' product.slug %}">
+                                            <img src="/media/{{product.product_images.first.image}}" alt="Product image"
+                                                class="product-image">
+                                        </a>
+                                    </figure><!-- End .product-media -->
+                                    <div class="product-body">
+                                        <h3 class="product-title"><a
+                                                href="{% url 'get_products' product.slug %}">{{product.product_name}}</a>
+                                        </h3><!-- End .product-title -->
+                                        <div class="product-price">
+                                            ₹{{product.price}}
+                                        </div><!-- End .product-price -->
+                                    </div><!-- End .product-body -->
+                                </div><!-- End .product -->
+                            </div><!-- End .col-sm-6 col-lg-4 -->
+                            {% endfor %}
+                        </div><!-- End .row -->
+                    </div><!-- End .products -->
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item disabled">
+                                <a class="page-link page-link-prev" href="#" aria-label="Previous" tabindex="-1"
+                                    aria-disabled="true">
+                                    <span aria-hidden="true"><i class="icon-long-arrow-left"></i></span>Prev
+                                </a>
+                            </li>
+                            <li class="page-item active" aria-current="page"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item-total">of 6</li>
+                            <li class="page-item">
+                                <a class="page-link page-link-next" href="#" aria-label="Next">
+                                    Next <span aria-hidden="true"><i class="icon-long-arrow-right"></i></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+
+                </div><!-- End .col-lg-9 -->
+
+
+                <aside class="col-lg-3 order-lg-first">
+
+                    <form id="filter-form">
+                        <div class="sidebar sidebar-shop">
+
+                            <div class="widget widget-clean">
+                                <label>Filters:</label>
+                                <a href="#" class="sidebar-filter-clear">Clean All</a>
+                            </div><!-- End .widget widget-clean -->
+
+                            <div class="widget widget-collapsible">
+                                <h3 class="widget-title">
+                                    <a data-toggle="collapse" href="#widget-1" role="button" aria-expanded="true"
+                                        aria-controls="widget-1">
+                                        Category
+                                    </a>
+                                </h3><!-- End .widget-title -->
+
+                                <div class="collapse show" id="widget-1">
+                                    <div class="widget-body">
+                                        <div class="filter-items filter-items-count">
+
+                                            {% for category in category %}
+                                            <div class="filter-item">
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input" name="category"
+                                                        value="{{ category.slug }}" id="{{ category.slug }}">
+                                                    <label class="custom-control-label"
+                                                        for="{{ category.slug }}">{{category.category_name }}</label>
+                                                </div><!-- End .custom-checkbox -->
+                                            </div><!-- End .filter-item -->
+                                            {% endfor %}
+
+
+                                        </div><!-- End .filter-items -->
+                                    </div><!-- End .widget-body -->
+                                </div><!-- End .collapse -->
+                            </div><!-- End .widget -->
+
+                            <div class="widget widget-collapsible">
+                                <h3 class="widget-title">
+                                    <a data-toggle="collapse" href="#widget-2" role="button" aria-expanded="true"
+                                        aria-controls="widget-2">
+                                        Size
+                                    </a>
+                                </h3><!-- End .widget-title -->
+
+                                <div class="collapse show" id="widget-2">
+                                    <div class="widget-body">
+                                        <div class="filter-items">
+
+                                            {% for sizes in sizevar %}
+                                            <div class="filter-item">
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input" name="size" value="{{sizes}}" id="{{sizes}}">
+                                                    <label class="custom-control-label"
+                                                        for="{{sizes}}">{{sizes}}</label>
+                                                </div><!-- End .custom-checkbox -->
+                                            </div><!-- End .filter-item -->
+                                            {% endfor %}
+                                            
+                                        </div><!-- End .filter-items -->
+                                    </div><!-- End .widget-body -->
+                                </div><!-- End .collapse -->
+                            </div><!-- End .widget -->
+
+
+
+                            <div class="widget widget-collapsible">
+                                <h3 class="widget-title">
+                                    <a data-toggle="collapse" href="#widget-5" role="button" aria-expanded="true"
+                                        aria-controls="widget-5">
+                                        Price
+                                    </a>
+                                </h3><!-- End .widget-title -->
+                                <div class="collapse show" id="widget-5">
+                                    <div class="widget-body">
+                                        <label for="min-price">Min Price:</label>
+                                        <input type="number" name="min_price" id="min-price"><br>
+                                        <label for="max-price">Max Price:</label>
+                                        <input type="number" name="max_price" id="max-price"><br>
+                                    </div><!-- End .widget-body -->
+                                </div><!-- End .collapse -->
+                            </div><!-- End .widget -->
+                        </div><!-- End .sidebar sidebar-shop -->
+                    </form>
+
+                </aside><!-- End .col-lg-3 -->
+
+
+            </div><!-- End .row -->
+        </div><!-- End .container -->
+    </div><!-- End .page-content -->
+</main><!-- End .main -->
+
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/smoothness/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+
+
+<!-- <script>
+    $(function() {
+      var priceRange = $("#price-range");
+      var priceSlider = $("#price-slider");
+      
+      // Initialize the slider widget
+      priceRange.slider({
+        range: true,
+        min: 0,
+        max: 100,
+        values: [0, 100],
+        slide: function(event, ui) {
+          // Update the price range display whenever the slider is moved
+          priceSlider.text("$" + ui.values[0] + " - $" + ui.values[1]);
+        }
+      });
+      
+      // Set the initial price range display
+      priceSlider.text("$" + priceRange.slider("values", 0) + " - $" + priceRange.slider("values", 1));
+    });
+  </script> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 
+<select name="category" id="category" multiple>
+    {% for category in category %}
+    <option value="{{ category.slug }}">{{ category.category_name }}</option>
+    {% endfor %}
+</select> -->
+
+<div class="bg-dark pt-6">
+    <div class="container">
+        <div class="heading heading-flex mb-3">
+            <div class="heading-left">
+                <h2 class="title"></h2><!-- End .title -->
+            </div><!-- End .heading-left -->
+
+            <div class="heading-right">
+                <ul class="nav nav-pills nav-border-anim justify-content-center" role="tablist">
+
+                    {% for categorys in category %}
+                    <li class="nav-item">
+                        <a class="nav-link active" id="trending-women-link" data-toggle="tab" href="#trending-women-tab"
+                            role="tab" aria-controls="trending-women-tab"
+                            aria-selected="true">{{categorys.category_name}}</a>
+                    </li>
+                    {% endfor %}
+                    <!-- <li class="nav-item">
+                        <a class="nav-link" id="trending-men-link" data-toggle="tab"
+                            href="#trending-men-tab" role="tab" aria-controls="trending-men-tab"
+                            aria-selected="false">Men's Clothing</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="trending-men-link" data-toggle="tab"
+                            href="#trending-men-tab" role="tab" aria-controls="trending-men-tab"
+                            aria-selected="false">Kids's Clothing</a>
+                    </li> -->
+                </ul>
+            </div><!-- End .heading-right -->
+        </div><!-- End .heading -->
+
+        <div class="tab-content tab-content-carousel">
+            <div class="tab-pane p-0 fade show active" id="trending-women-tab" role="tabpanel"
+                aria-labelledby="trending-women-link">
+                <div class="products">
+                    <div class="row">
+
+
+                        <!-- start -->
+
+
+                        {% for product in products %}
+
+                        <div class="col-6 col-md-4 col-lg-4 col-xl-3">
+                            <div class="product">
+                                <figure class="product-media">
+                                    <!-- <span class="product-label label-new">New</span> -->
+                                    <a href="{% url 'get_products' product.slug %}">
+                                        <img src="/media/{{product.product_images.first.image}}" alt="Product image"
+                                            class="product-image">
+                                    </a>
+
+                                    <div class="product-action-vertical">
+                                        <!-- <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a> -->
+                                    </div><!-- End .product-action -->
+
+                                    <div class="product-action action-icon-top">
+                                        <!-- <a href="#" class="btn-product btn-cart"><span>add to cart</span></a> -->
+                                        <!-- <a href="popup/quickView.html" class="btn-product btn-quickview" title="Quick view"><span>quick view</span></a> -->
+                                        <!-- <a href="#" class="btn-product btn-compare" title="Compare"><span>compare</span></a> -->
+                                    </div><!-- End .product-action -->
+                                </figure><!-- End .product-media -->
+
+                                <div class="product-body">
+                                    <!-- <div class="product-cat">
+                                        <a href="#">Women</a>
+                                    </div> -->
+                                    <!-- End .product-cat -->
+                                    <h3 class="product-title"><a
+                                            href="{% url 'get_products' product.slug %}">{{product.product_name}}</a>
+                                    </h3><!-- End .product-title -->
+                                    <div class="product-price">₹{{product.price}}
+                                    </div><!-- End .product-price -->
+                                    <!-- <div class="ratings-container">
+                                        <div class="ratings">
+                                            <div class="ratings-val" style="width: 0%;"></div> -->
+                                    <!-- End .ratings-val -->
+                                    <!-- End .ratings -->
+                                    <!-- </div> <span class="ratings-text">( 0 Reviews )</span>
+                                    </div> -->
+                                    <!-- End .rating-container -->
+
+                                    <!-- <div class="product-nav product-nav-dots">
+                                        <a href="#" style="background: #cc9966;"><span class="sr-only">Color name</span></a>
+                                        <a href="#" class="active" style="background: #ebebeb;"><span class="sr-only">Color name</span></a>
+                                    </div> -->
+                                    <!-- End .product-nav -->
+                                </div><!-- End .product-body -->
+                            </div><!-- End .product -->
+                        </div><!-- End .col-sm-6 col-lg-4 col-xl-3 -->
+                        {% endfor %}
+                        <!-- end -->
+
+                    </div><!-- End .row -->
+                    <!-- <div class="load-more-container text-center">
+                        <a href="#" class="btn btn-outline-darker btn-load-more">More Products <i class="icon-refresh"></i></a>
+                    </div> -->
+                    <!-- End .load-more-container -->
+                </div><!-- End .products -->
+            </div><!-- .End .tab-pane -->
+            <div class="tab-pane p-0 fade" id="trending-men-tab" role="tabpanel" aria-labelledby="trending-men-link">
+                <div class="owl-carousel owl-simple carousel-equal-height carousel-with-shadow" data-toggle="owl"
+                    data-owl-options='{
+                        "nav": false, 
+                        "dots": true,
+                        "margin": 20,
+                        "loop": false,
+                        "responsive": {
+                            "0": {
+                                "items":2
+                            },
+                            "480": {
+                                "items":2
+                            },
+                            "768": {
+                                "items":3
+                            },
+                            "992": {
+                                "items":4
+                            },
+                            "1200": {
+                                "items":4,
+                                "dots": false
+                            }
+                        }
+                    }'>
+
+                </div><!-- End .owl-carousel -->
+            </div><!-- .End .tab-pane -->
+        </div><!-- End .tab-content -->
+    </div><!-- End .container -->
+</div>
+
+<!-- <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const categorySelect = document.getElementById('category');
+        const productList = document.getElementById('product-list');
+        categorySelect.addEventListener('change', function (event) {
+            const categoryIds = Array.from(categorySelect.selectedOptions, option => option.value);
+            const url = `/products/?category=${categoryIds.join(',')}`;
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    const products = data.products;
+                    let productHtml = '';
+                    for (let i = 0; i < products.length; i++) {
+                        const product = products[i];
+                        productHtml += `<li>${product.name} - ${product.description} - ${product.price}</li>`;
+                    }
+                    productList.innerHTML = productHtml;
+                });
+        });
+    });
+</script> -->
+
+<script>
+    const filterForm = document.getElementById('filter-form');
+    const productList = document.getElementById('product-list');
+    let filterData = {};
+
+    filterForm.addEventListener('change', (event) => {
+        const input = event.target;
+        const name = input.name;
+        const value = input.value;
+
+        if (input.type === 'checkbox') {
+            if (input.checked) {
+                if (!filterData[name]) {
+                    filterData[name] = [];
+                }
+                filterData[name].push(value);
+            } else {
+                filterData[name] = filterData[name].filter(item => item !== value);
+                if (filterData[name].length === 0) {
+                    delete filterData[name];
+                }
+            }
+        } else
+
+
+            if (input.type === 'number') {
+                if (input.value) {
+                    filterData[name] = input.value;
+                } else {
+                    delete filterData[name];
+                }
+            }
+
+        fetch(`/filter-products?${new URLSearchParams(filterData).toString()}`)
+            .then(response => response.json())
+            .then(data => {
+                const products = data.products;
+                let html = '';
+                for (const product of products) {
+                    console.log(product.images);
+                    html += `
+              <div class="product col-6 col-md-4 col-lg-4 ">
+                <div class=" text-center">
+                  <figure class="product-media">
+                    <a href="/products/${product.slug}/">
+                      <img src="/media/${product.images[0].image}" alt="Product image" class="product-image">
+                    </a>
+                  </figure><!-- End .product-media -->
+                  <div class="product-body">
+                    <h3 class="product-title"><a href="/products/${product.slug}/">${product.product_name}</a></h3><!-- End .product-title -->
+                    <div class="product-price">₹${product.price}</div><!-- End .product-price -->
+                  </div><!-- End .product-body -->
+                </div><!-- End .product -->
+              </div><!-- End .col-sm-6 col-lg-4 -->
+            `;
+                }
+                productList.innerHTML = html;
+            });
+    });
+</script>
+
+
+<script src="/media/assets/js/searchfunc.js"></script> 
+{% endblock %}
+
+
+<!-- other codes -->
+
+
+<form method="GET">
+    <label for="start_date">Start Date:</label>
+    <input type="date" id="start_date" name="start_date" value="{{ start_date }}">
+    <label for="end_date">End Date:</label>
+    <input type="date" id="end_date" name="end_date" value="{{ end_date }}">
+    <button type="submit">Filter</button>
+  </form>
+  
+  <table>
+    <thead>
+      <tr>
+        <th>Order ID</th>
+        <th>Date</th>
+        <th>Customer Name</th>
+        <th>Order Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for order in orders %}
+      <tr>
+        <td>{{ order.id }}</td>
+        <td>{{ order.date }}</td>
+        <td>{{ order.customer.name }}</td>
+        <td>{{ order.total }}</td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="4">No orders found.</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  
+
+
+
+  from datetime import datetime
+
+def order_list(request):
+    start_date = request.GET.get('start_date')
+    end_date = request.GET.get('end_date')
+    if start_date and end_date:
+        start_date = datetime.strptime(start_date, '%Y-%m-%d').date()
+        end_date = datetime.strptime(end_date, '%Y-%m-%d').date()
+        orders = Order.objects.filter(date__range=[start_date, end_date])
+    else:
+        orders = Order.objects.all()
+    context = {
+        'orders': orders,
+        'start_date': start_date,
+        'end_date': end_date
+    }
+    return render(request, 'order_list.html', context)

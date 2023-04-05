@@ -1,0 +1,88 @@
+{% extends 'userpages/userheader.html'%}
+
+{% block title %} SHOPPERS HOME {% endblock %}
+
+{% block body %}
+
+<br><br><br>
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="card card-dashboard">
+            <!-- <div class="card-body">
+                <h3 class="card-title">Billing Address</h3>
+
+                <p>User Name<br>
+                User Company<br>
+                John str<br>
+                New York, NY 10001<br>
+                1-234-987-6543<br>
+                yourmail@mail.com<br>
+                <a href="#">Edit <i class="icon-edit"></i></a></p>
+            </div> -->
+        </div>
+    </div><!-- End .col-lg-6 -->
+
+    <!-- <div class="col-lg-6"> -->
+    <!-- <div class="card card-dashboard">
+            <div class="card-body">
+                <h3 class="card-title">Shipping Address</h3>
+
+                <p>You have not set up this type of address yet.<br>
+                <a href="#">Edit <i class="icon-edit"></i></a></p>
+            </div>
+        </div> -->
+
+    <form action="{% url 'addaddress' %}" method="post">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-sm-6">
+                <label>First Name *</label>
+                <input type="text" name="firstname" class="form-control" required>
+            </div><!-- End .col-sm-6 -->
+
+            <div class="col-sm-6">
+                <label>Last Name *</label>
+                <input type="text" name="lastname" class="form-control" required>
+            </div><!-- End .col-sm-6 -->
+        </div><!-- End .row -->
+
+        <label>house Name *</label>
+        <input type="text" name="housename" class="form-control" required>
+        <!-- <small class="form-text">This will be how your name will be displayed in the
+            account section and in reviews</small> -->
+
+        <label>Town *</label>
+        <input type="text" class="form-control" name="town" required>
+
+        <label>Locality *</label>
+        <input type="text" name="locality" class="form-control" required>
+
+        <label>City *</label>
+        <input type="text" name="city" class="form-control" required>
+
+        <label>State *</label>
+        <input type="text" name="state" class="form-control" required>
+
+        <label>pincode *</label>
+        <input type="number" name="pincode" class="form-control" required>
+
+        <label>Phone Number *</label>
+        <input type="number" name="phonenumber" class="form-control mb-2" required>
+
+        <button type="submit" class="btn btn-outline-primary-2">
+            <span>Add Adress</span>
+            <i class="icon-long-arrow-right"></i>
+        </button>
+    </form>
+
+
+    <!-- </div> -->
+</div><!-- End .row -->
+
+
+<br><br><br>
+
+
+
+{% endblock %}

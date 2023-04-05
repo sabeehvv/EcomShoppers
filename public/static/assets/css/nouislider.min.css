@@ -1,0 +1,114 @@
+.noUi-target,
+.noUi-target * {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -ms-touch-action: none;
+  touch-action: none;
+  -ms-user-select: none;
+  user-select: none;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.noUi-base {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.noUi-connect {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  z-index: 1;
+  -webkit-transition: background-color 0.3s;
+  transition: background-color 0.3s;
+}
+
+.noUi-connect + .noUi-connect {
+  z-index: 0;
+}
+
+.noUi-connects {
+  width: 100%;
+  height: 100%;
+}
+
+.noUi-vertical .noUi-connect {
+  -webkit-transition: height 0.3s;
+  transition: height 0.3s;
+}
+
+.noUi-origin {
+  position: absolute;
+  height: 20px;
+  width: 20px;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
+
+.noUi-handle {
+  border: 1px solid #333;
+  border-radius: 50%;
+  cursor: grab;
+  -webkit-box-shadow: inset 0 0 1px #000;
+  box-shadow: inset 0 0 1px #000;
+  height: 20px;
+  width: 20px;
+  position: absolute;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  z-index: 4;
+}
+
+.noUi-handle-lower {
+  left: 0;
+}
+
+.noUi-handle-upper {
+  right: 0;
+}
+
+.noUi-vertical .noUi-handle {
+  -webkit-transform: translate(-50%, 0);
+  transform: translate(-50%, 0);
+}
+
+.noUi-touch-area {
+  height: 100%;
+  width: 100%;
+}
+
+.noUi-state-tap .noUi-connect,
+.noUi-state-tap .noUi-origin {
+  -webkit-transition: none;
+  transition: none;
+}
+
+.noUi-state-drag * {
+  cursor: grabbing !important;
+}
+
+.noUi-vertical .noUi-handle-lower {
+  top: 0;
+}
+
+.noUi-vertical .noUi-handle-upper {
+  bottom: 0;
+}
+
+.noUi-vertical .noUi-connect {
+  -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.noUi-vertical .noUi-origin {
+  -webkit-transform: translate(-50%, 0);
+  transform: translate(-50%, 0);
+}
+
+.noUi-vertical .noUi-handle {
+  -webkit-transform: translate(0, -50%);
+  transform: translate(0, -50%);
+}

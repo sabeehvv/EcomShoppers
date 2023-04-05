@@ -1,0 +1,105 @@
+<!-- start -->
+{% extends 'adminpages/adminheader.html' %}
+
+
+{% block title %} SHOPPERS Admin Category {% endblock %}
+
+{% block body %}
+
+
+<div class="content">
+  <div class="animated fadeIn">
+    <div class="row">
+
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <strong class="card-title">Users List</strong>
+          </div>
+          <div class="card-body">
+
+
+            <table id="bootstrap-data-table" class="table table-striped table-bordered">
+              <thead>
+                <tr>
+                  <th>S.No</th>
+                  <th>ID</th>
+                  <th>Email Address</th>
+                  <th>Phone Number</th>
+                  <th>First Name</th>
+                  <th>Last Name</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+
+
+                <!-- forloop start -->
+                {% if users %}
+                {% for obj in users %}
+                <tr>
+                  <th>{{forloop.counter}}</td>
+                  <td>{{obj.id}}</td>
+                  <td>{{obj.email}}</td>
+                  <td>{{obj.phone_number}}</td>
+                  <td>{{obj.first_name}}</td>
+                  <td>{{obj.last_name}}</td>
+                  <td>
+
+                    {% if obj.is_active %}
+                    <form action="update_user" method="post">
+                      {% csrf_token %}
+                      <input type="hidden" name="user_id" value="{{ obj.id }}">
+                      <input type="submit" class="btn-warning" value="Block">
+                    </form>
+                    {% else %}
+                    <form action="update_user" method="post">
+                      {% csrf_token %}
+                      <input type="hidden" name="user_id" value="{{ obj.id }}">
+                      <input type="submit" class="btn-danger" value="UnBlock">
+                    </form>
+                    {% endif %}
+                  </td>
+
+                </tr>
+                {% endfor %}
+                <!-- for loop end -->
+
+                {% else %}
+                <h3 class="text-danger">No results found.</h3>
+                {% endif %}
+              </tbody>
+            </table>
+
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </div><!-- .animated -->
+</div><!-- .content -->
+
+
+
+<script src="/media/assetsadmin/js/lib/data-table/datatables.min.js"></script>
+<script src="/media/assetsadmin/js/lib/data-table/dataTables.bootstrap.min.js"></script>
+<script src="/media/assetsadmin/js/lib/data-table/dataTables.buttons.min.js"></script>
+<script src="/media/assetsadmin/js/lib/data-table/buttons.bootstrap.min.js"></script>
+<script src="/media/assetsadmin/js/lib/data-table/jszip.min.js"></script>
+<script src="/media/assetsadmin/js/lib/data-table/vfs_fonts.js"></script>
+<script src="/media/assetsadmin/js/lib/data-table/buttons.html5.min.js"></script>
+<script src="/media/assetsadmin/js/lib/data-table/buttons.print.min.js"></script>
+<script src="/media/assetsadmin/js/lib/data-table/buttons.colVis.min.js"></script>
+<script src="/media/assetsadmin/js/init/datatables-init.js"></script>
+
+
+<script type="text/javascript">
+  $(document).ready(function () {
+    $('#bootstrap-data-table-export').DataTable();
+  });
+</script>
+
+{% endblock %}
+
+<!-- end -->

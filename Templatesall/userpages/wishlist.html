@@ -1,0 +1,180 @@
+{% extends 'userpages/userheader.html'%}
+
+{% block title %} SHOPPERS Cart {% endblock %}
+
+{% block body %}
+
+
+<main class="main">
+    <div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
+        <div class="container">
+            <h3 class="page-title">Shopping Wishlist</h3>
+        </div>
+    </div>
+    <nav aria-label="breadcrumb" class="breadcrumb-nav">
+        <div class="container">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'userhome' %}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'usershop' %}">Shop</a></li>
+                <li class="breadcrumb-item active" aria-current="page">wishlist </li>
+            </ol>
+        </div><!-- End .container -->
+    </nav><!-- End .breadcrumb-nav -->
+
+    <div class="page-content">
+        <div class="cart">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-11">
+                        <form action="{% url 'updatecart' %}" method="post">
+                            {% csrf_token %}
+                            <table class="table table-cart table-mobile">
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Size</th>
+                                        <th>Price</th>
+                                        <th>Quantity</th>
+                                        <th>Total</th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+
+
+
+
+                                    <!-- cart list -->
+                                    {% for cartitem in cartitems %}
+                                    <tr>
+                                        <td class="product-col">
+                                            <div class="product">
+                                                <figure class="product-media">
+                                                    <a href="#">
+                                                        <img src="/media/{{cartitem.product.product_images.first.image}}"
+                                                            alt="Product image">
+                                                    </a>
+                                                </figure>
+
+                                                <h3 class="product-title">
+                                                    <a href="#">{{cartitem.product.product_name}}</a>
+                                                </h3><!-- End .product-title -->
+                                            </div><!-- End .product -->
+                                        </td>
+                                        <td class="price-col">{{cartitem.sizemodel.size_name}}</td>
+                                        <td class="price-col">{{cartitem.cartprice}}</td>
+                                        <td class="price-col">{{cartitem.quantity}}</td>
+                                     
+                                        <span id="price_text_{{cartitem.id}}" hidden>
+                                            {{cartitem.cartprice}}
+                                        </span>
+                                        <td class="total-col"><span>₹</span><span
+                                                id="singlesub_{{cartitem.id}}">{{cartitem.sub_total}}</span></td>
+                                        <td class="remove-col">
+                                            <a href="{% url 'wishlist_to_cart' cartitem.id %}"class="btn-product btn-cart"><span>Move To Cart</span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <div id="get">
+                                        <p id="actual_price_{{cartitem.id}}" hidden="">
+                                            {{cartitem.cartprice}}
+                                        </p>
+
+                                    </div>
+                                    {% endfor %}
+                                    <!-- cart list end -->
+
+
+
+                                </tbody>
+                            </table><!-- End .table table-wishlist -->
+                            {% if not cartitems %}
+                            
+                            <h3 style="color: red;">Wishlist Empty</h3>
+                            {% endif %}
+                            <div class="cart-bottom">
+                                <div class="cart-discount">
+                                    <form action="#">
+                                        <div class="input-group">
+                                            <!-- <input type="text" class="form-control" required placeholder="coupon code"> -->
+                                            <div class="input-group-append">
+                                                <!-- <button class="btn btn-outline-primary-2" type="submit"><i
+                                                    class="icon-long-arrow-right"></i></button> -->
+                                            </div><!-- .End .input-group-append -->
+                                        </div><!-- End .input-group -->
+                                    </form>
+                                </div><!-- End .cart-discount -->
+
+                                <!-- <button type="submit" class="btn btn-outline-dark-2"><span>UPDATE CART</span><i
+                                        class="icon-refresh"></i></button> -->
+                            </div><!-- End .cart-bottom -->
+                        </form>
+                    </div><!-- End .col-lg-9 -->
+
+                </div><!-- End .row -->
+            </div><!-- End .container -->
+        </div><!-- End .cart -->
+    </div><!-- End .page-content -->
+</main><!-- End .main -->
+
+
+
+<script>
+    async function removeCartProduct(cartProductid) {
+        let response = await fetch('/removeproduct/' + cartProductid, {
+            method: 'DELETE', headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        let res = await response.json();
+        if (res == "success") {
+            window.location.reload()
+
+        }
+    }
+
+
+
+    function validateData(id, index) {
+        const element = document.getElementById(id)
+        const priceText = document.getElementById('price_text_' + id)
+        const price = document.getElementById('actual_price_' + id)
+        // const subtotal = document.getElementById('subtotal')
+        const singlesub = document.getElementById('singlesub_' + id)
+        const sub = document.getElementById('sub')
+        if (Number(element.value) > Number(element.max))
+            element.value = element.max
+        const rate = priceText.innerHTML
+        priceText.innerHTML = Number(price.innerHTML) * Number(element.value)
+        singlesub.innerHTML = Number(priceText.innerHTML)
+        const diff = Number(priceText.innerHTML) - Number(rate)
+        const amount = 0
+        // subtotal.innerHTML = Number(diff) + Number(subtotal.innerHTML),
+        // sub.innerHTML = Number(diff) + Number(sub.innerHTML)
+
+
+
+    }
+    async function proceedTocheckout() {
+        const quantity = Object.values(document.getElementsByName('quantity')).map((cartProduct) => (
+            {
+                cartProductid: cartProduct.id,
+                quantity: cartProduct.value
+            }
+        ))
+
+        let response = await fetch('/checkout', {
+            method: 'post',
+            headers: { 'Content-Type': 'application/json', },
+            body: JSON.stringify(quantity)
+        });
+
+    }
+
+
+</script>
+
+
+{% endblock %}

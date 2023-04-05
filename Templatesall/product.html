@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Multiple Image Upload and Crop</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"
+        integrity="sha512-6lplKUSl86rUVprDIjiW8DuOniNX8UDoRATqZSds/7t6zCQZfaCe3e5zcGaQwxa8Kpn5RTM9Fvl3X2lLV4grPQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css"
+        integrity="sha512-1xHrD6U5M5BV5OvQgV7dX6m5D6hOj6k5U6pF8fq0rA6CZJ6N1dcZh7YR6jJhVcM0oy3TKuV7GkBrJj/6x1Zq3Q=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+    <input type="file" id="input-images" multiple>
+    <div id="preview-images-container"></div>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', function () {
+            // Define variables
+            var inputImages = document.getElementById('input-images');
+            var previewContainer = document.getElementById('preview-images-container');
+            var cropper = null;
+    
+            // Handle image selection
+            inputImages.addEventListener('change', function () {
+                // Remove any existing previews
+                previewContainer.innerHTML = '';
+    
+                // Loop through selected images
+                for (var i = 0; i < this.files.length; i++) {
+                    var file = this.files[i];
+                    var reader = new FileReader();
+                    reader.onload = function (event) {
+                        var image = new Image();
+                        image.src = event.target.result;
+    
+                        // Add image to preview container
+                        var previewDiv = document.createElement('div');
+                        previewDiv.className = 'image-preview';
+                        previewDiv.appendChild(image);
+                        previewContainer.appendChild(previewDiv);
+    
+                        // Initialize cropper (only once)
+                        if (!cropper) {
+                            cropper = new Cropper(image, {
+                                aspectRatio: 1,
+                                viewMode: 1,
+                                cropBoxResizable: true
+                            });
+                        } else {
+                            cropper.replace(image);
+                        }
+    
+                        // Get the cropped image data and append it to the preview container
+                        var croppedCanvas = cropper.getCroppedCanvas({
+                            fillColor: '#fff'
+                        });
+                        var croppedImage = croppedCanvas.toDataURL();
+                        var croppedPreview = document.createElement('div');
+                        croppedPreview.className = 'image-preview';
+                        var croppedImageElement = new Image();
+                        croppedImageElement.src = croppedImage;
+                        croppedPreview.appendChild(croppedImageElement);
+                        previewContainer.appendChild(croppedPreview);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        });
+    </script>
+    
+</body>
+
+</html>

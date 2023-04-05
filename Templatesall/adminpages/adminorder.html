@@ -1,0 +1,95 @@
+{% extends 'adminpages/adminheader.html' %}
+
+
+{% block title %} SHOPPERS Admin HOME {% endblock %}
+
+{% block body %}
+
+
+<div class="content">
+  <div class="animated fadeIn">
+    <div class="row">
+
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <strong class="card-title">Order List</strong>
+          </div>
+          <center>
+          <form action="{% url 'order_filter' %}" method="get">
+            <label for="start_date">Start Date:</label>
+            <input type="date" id="start_date" name="start_date" value="{{ start_date }}">
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <label for="end_date">End Date:</label>
+            <input type="date" id="end_date" name="end_date" value="{{ end_date }}">
+            <button type="submit" class="btn btn-primary">Filter</button>
+          </form></center>
+          <div class="card-body">
+
+           
+            <table id="bootstrap-data-table" class="table table-striped table-bordered">
+           
+              <thead>
+                <tr>
+                  <th>S.No</th>
+                  <th>Name</th>
+                  <th>Phone_number</th>
+                  <th>Total_price</th>
+                  <th>Order_id</th>
+                  <th>ordered_date</th>
+                  <th>View_order</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+
+
+                <!-- forloop start -->
+                {% if order %}
+                {% for x in order %}
+                <tr>
+                  <th>{{forloop.counter}}</td>
+                  <td>{{x.user.first_name}}</td>
+                  <td>{{x.address.phonenumber}}</td>
+                  <td>{{x.ordertotal}}</td>
+                  <td>{{x.orderid}}</td>
+                  <td>{{x.date}}</td>
+                  <td> <a href="{% url 'orderdetailsadmin' x.id %}" class="btn btn-primary">view details</a> </td>
+                  <td><a href="{% url 'deletorder_item' x.id %}">.</a></td>
+                </tr>
+                {% endfor %}
+                <!-- for loop end -->
+              </tbody>
+            </table>
+            {% else %}
+            <h3 class="text-danger">No results found.</h3>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div><!-- .animated -->
+</div><!-- .content -->
+
+
+
+<script src="/media/assetsadmin/js/lib/data-table/datatables.min.js"></script>
+<script src="/media/assetsadmin/js/lib/data-table/dataTables.bootstrap.min.js"></script>
+<script src="/media/assetsadmin/js/lib/data-table/dataTables.buttons.min.js"></script>
+<script src="/media/assetsadmin/js/lib/data-table/buttons.bootstrap.min.js"></script>
+<script src="/media/assetsadmin/js/lib/data-table/jszip.min.js"></script>
+<script src="/media/assetsadmin/js/lib/data-table/vfs_fonts.js"></script>
+<script src="/media/assetsadmin/js/lib/data-table/buttons.html5.min.js"></script>
+<script src="/media/assetsadmin/js/lib/data-table/buttons.print.min.js"></script>
+<script src="/media/assetsadmin/js/lib/data-table/buttons.colVis.min.js"></script>
+<script src="/media/assetsadmin/js/init/datatables-init.js"></script>
+
+
+<script type="text/javascript">
+  $(document).ready(function () {
+    $('#bootstrap-data-table-export').DataTable();
+  });
+</script>
+
+
+{% endblock %}

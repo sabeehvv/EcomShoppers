@@ -1,0 +1,274 @@
+<div>
+  <h3>Filter Products</h3>
+  <div>
+    <h4>Category</h4>
+    <input type="checkbox" name="category" value="electronics"> Electronics<br>
+    <input type="checkbox" name="category" value="clothing"> Clothing<br>
+    <input type="checkbox" name="category" value="home"> Home<br>
+  </div>
+  <div>
+    <h4>Size</h4>
+    <input type="checkbox" name="size" value="small"> Small<br>
+    <input type="checkbox" name="size" value="medium"> Medium<br>
+    <input type="checkbox" name="size" value="large"> Large<br>
+  </div>
+  <div>
+    <h4>Price Range</h4>
+    <input type="number" name="min_price" placeholder="Min">
+    <input type="number" name="max_price" placeholder="Max">
+  </div>
+</div>
+
+
+<div id="product-container"></div>
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Product Filter</title>
+  </head>
+  <body>
+    <h1>Product Filter</h1>
+    <form id="filter-form">
+      <h2>Filter by Category</h2>
+      <label for="category-1"><input type="checkbox" name="category" value="category-1" id="category-1"> Category 1</label><br>
+      <label for="category-2"><input type="checkbox" name="category" value="category-2" id="category-2"> Category 2</label><br>
+      <label for="category-3"><input type="checkbox" name="category" value="category-3" id="category-3"> Category 3</label><br>
+      <h2>Filter by Size</h2>
+      <label for="size-1"><input type="checkbox" name="size" value="size-1" id="size-1"> Size 1</label><br>
+      <label for="size-2"><input type="checkbox" name="size" value="size-2" id="size-2"> Size 2</label><br>
+      <label for="size-3"><input type="checkbox" name="size" value="size-3" id="size-3"> Size 3</label><br>
+      <h2>Filter by Price</h2>
+      <label for="min-price">Min Price:</label>
+      <input type="number" name="min_price" id="min-price"><br>
+      <label for="max-price">Max Price:</label>
+      <input type="number" name="max_price" id="max-price"><br>
+    </form>
+    <div id="product-list"></div>
+    <script>
+      const filterForm = document.getElementById('filter-form');
+      const productList = document.getElementById('product-list');
+      let filterData = {};
+
+      filterForm.addEventListener('change', (event) => {
+        const input = event.target;
+        const name = input.name;
+        const value = input.value;
+
+        if (input.type === 'checkbox') {
+          if (input.checked) {
+            if (!filterData[name]) {
+              filterData[name] = [];
+            }
+            filterData[name].push(value);
+          } else {
+            filterData[name] = filterData[name].filter(item => item !== value);
+            if (filterData[name].length === 0) {
+              delete filterData[name];
+            }
+          }
+        } else if (input.type === 'number') {
+          filterData[name] = input.value === '' ? null : input.value;
+        }
+
+        fetch(`/filter-products/?category=${filterData.category || ''}&size=${filterData.size || ''}&min_price=${filterData.min_price || ''}&max_price=${filterData.max_price || ''}`)
+          .then(response => response.json())
+          .then(data => {
+            productList.innerHTML = '';
+            data.products.forEach(product => {
+              const productDiv = document.createElement('div');
+              const name = document.createElement('h3');
+              const price = document.createElement('p');
+
+              name.textContent = product.name;
+              price.textContent = product.price;
+
+              productDiv.appendChild(name);
+              productDiv.appendChild(price);
+
+              productList.appendChild(productDiv);
+            });
+          });
+      });
+    </script>
+  </body>
+</html>
+
+
+
+<!-- new code from chat gpt -->
+<script>
+  // const filterForm = document.getElementById('filter-form');
+  // const productList = document.getElementById('product-list');
+  // let filterData = {};
+
+  filterForm.addEventListener('change', (event) => {
+    const input = event.target;
+    const name = input.name;
+    const value = input.value;
+
+    if (input.type === 'checkbox') {
+      if (input.checked) {
+        if (!filterData[name]) {
+          filterData[name] = [];
+        }
+        filterData[name].push(value);
+      } else {
+        filterData[name] = filterData[name].filter(item => item !== value);
+        if (filterData[name].length === 0) {
+          delete filterData[name];
+        }
+      }
+    } else if (input.type === 'number') {
+      if (input.value) {
+        filterData[name] = input.value;
+      } else {
+        delete filterData[name];
+      }
+    }
+
+    fetch(`/filter-products?${new URLSearchParams(filterData).toString()}`)
+      .then(response => response.json())
+      .then(data => {
+        const products = data.products;
+        let html = '';
+        for (const product of products) {
+          html += `
+            <div class="product col-6 col-md-4 col-lg-4 ">
+              <div class=" text-center">
+                <figure class="product-media">
+                  <a href="/products/${product.slug}/">
+                    <img src="/media/${product.product_images[0].image}" alt="Product image" class="product-image">
+                  </a>
+                </figure><!-- End .product-media -->
+                <div class="product-body">
+                  <h3 class="product-title"><a href="/products/${product.slug}/">${product.product_name}</a></h3><!-- End .product-title -->
+                  <div class="product-price">₹${product.price}</div><!-- End .product-price -->
+                </div><!-- End .product-body -->
+              </div><!-- End .product -->
+            </div><!-- End .col-sm-6 col-lg-4 -->
+          `;
+        }
+        productList.innerHTML = html;
+      });
+  });
+</script>
+
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Product Filter</title>
+  </head>
+  <body>
+    <h1>Product Filter</h1>
+    <form id="filter-form">
+      <h2>Filter by Category</h2>
+      <label for="category-1"><input type="checkbox" name="category" value="category-1" id="category-1"> Category 1</label><br>
+      <label for="category-2"><input type="checkbox" name="category" value="category-2" id="category-2"> Category 2</label><br>
+      <label for="category-3"><input type="checkbox" name="category" value="category-3" id="category-3"> Category 3</label><br>
+      <h2>Filter by Size</h2>
+      <label for="size-1"><input type="checkbox" name="size" value="size-1" id="size-1"> Size 1</label><br>
+      <label for="size-2"><input type="checkbox" name="size" value="size-2" id="size-2"> Size 2</label><br>
+      <label for="size-3"><input type="checkbox" name="size" value="size-3" id="size-3"> Size 3</label><br>
+      <h2>Filter by Price</h2>
+      <label for="min-price">Min Price:</label>
+      <input type="number" name="min_price" id="min-price"><br>
+      <label for="max-price">Max Price:</label>
+      <input type="number" name="max_price" id="max-price"><br>
+    </form>
+    <div id="product-list">
+      {% for product in products %}
+        <div class="product col-6 col-md-4 col-lg-4 ">
+          <div class=" text-center">
+            <figure class="product-media">
+              <a href="{% url 'get_products' product.slug %}">
+                <img src="/media/{{product.product_images.first.image}}" alt="Product image" class="product-image">
+              </a>
+            </figure><!-- End .product-media -->
+            <div class="product-body">
+              <h3 class="product-title"><a href="{% url 'get_products' product.slug %}">{{product.product_name}}</a></h3><!-- End .product-title -->
+              <div class="product-price">₹{{product.price}}</div><!-- End .product-price -->
+            </div><!-- End .product-body -->
+          </div><!-- End .product -->
+        </div><!-- End .col-sm-6 col-lg-4 -->
+      {% endfor %}
+    </div>
+
+
+    <script>
+      // const filterForm = document.getElementById('filter-form');
+      // const productList = document.getElementById('product-list');
+      // let filterData = {};
+
+      filterForm.addEventListener('change', (event) => {
+        const input = event.target;
+        const name = input.name;
+        const value = input.value;
+
+        if (input.type === 'checkbox') {
+          if (input.checked) {
+            if (!filterData[name]) {
+              filterData[name] = [];
+            }
+            filterData[name].push(value);
+          } else {
+            filterData[name] = filterData[name].filter(item => item !== value);
+            if (filterData[name].length === 0) {
+              delete filterData[name];
+            }
+          }
+        } else
+
+
+        if (input.type === 'number') {
+          if (input.value) {
+            filterData[name] = input.value;
+          } else {
+            delete filterData[name];
+          }
+        }
+
+        fetch(`/filter-products?${new URLSearchParams(filterData).toString()}`)
+          .then(response => response.json())
+          .then(data => {
+            const products = data.products;
+            let html = '';
+            for (const product of products) {
+              html += `
+                <div class="product col-6 col-md-4 col-lg-4 ">
+                  <div class=" text-center">
+                    <figure class="product-media">
+                      <a href="/products/${product.slug}/">
+                        <img src="/media/${product.product_images[0].image}" alt="Product image" class="product-image">
+                      </a>
+                    </figure><!-- End .product-media -->
+                    <div class="product-body">
+                      <h3 class="product-title"><a href="/products/${product.slug}/">${product.product_name}</a></h3><!-- End .product-title -->
+                      <div class="product-price">₹${product.price}</div><!-- End .product-price -->
+                    </div><!-- End .product-body -->
+                  </div><!-- End .product -->
+                </div><!-- End .col-sm-6 col-lg-4 -->
+              `;
+            }
+            productList.innerHTML = html;
+          });
+      });
+    </script>
+  </body>
+</html>
+
+
+

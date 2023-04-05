@@ -1,0 +1,225 @@
+{% extends 'userpages/userheader.html'%}
+
+{% block title %} SHOPPERS SHOP {% endblock %}
+
+{% block body %}
+
+
+<main class="main ">
+    <nav aria-label="breadcrumb" class="breadcrumb-nav mb-2">
+        <div class="container">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'userhome' %}">Home</a></li>
+                
+                {% if singlecategory %}
+                <li class="breadcrumb-item"><a href="{% url 'usershop' %}">Shop</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Category > {{singlecategory.category_name}}</li>
+                {% else %}
+                    {% if filter %}
+                    <li class="breadcrumb-item"><a href="{% url 'usershop' %}">Shop</a></li>
+                <li class="breadcrumb-item active" aria-current="page">filtered products</li>
+                    {% else %}
+                    <li class="breadcrumb-item active" aria-current="page">Shop</li>
+                     {% endif %}
+                
+                {% endif %}
+
+            </ol>
+        </div><!-- End .container -->
+    </nav><!-- End .breadcrumb-nav -->
+    <div class="page-content bg-lighter ">
+        <div class="container">
+            <div  class="row">
+                <div class="col-lg-9">
+                    <div class="products mb-3">
+                        <div id="product-list" class="row justify-content-center">
+                            {% for product in products %}
+                            <div class="product col-6 col-md-4 col-lg-4 ">
+                                <div class=" text-center">
+                                    <figure class="product-media">
+                                        <a href="{% url 'get_products' product.slug %}">
+                                            <img src="/media/{{product.product_images.first.image}}" alt="Product image"
+                                                class="product-image">
+                                        </a>
+                                        <div class="product-action-vertical">
+                                            <a href="{% url 'add_direct_wishlist' product.slug %}" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
+                                        </div><!-- End .product-action-vertical -->
+                                    </figure><!-- End .product-media -->
+                                    <div class="product-body">
+                                        <h3 class="product-title"><a
+                                                href="{% url 'get_products' product.slug %}">{{product.product_name}}</a>
+                                        </h3><!-- End .product-title -->
+                                        <div class="product-price">
+                                            ₹{{product.price}}
+                                        </div><!-- End .product-price -->
+                                    </div><!-- End .product-body -->
+                                </div><!-- End .product -->
+                            </div><!-- End .col-sm-6 col-lg-4 -->
+                            {% endfor %}
+                        </div><!-- End .row -->
+                    </div><!-- End .products -->
+                    <!-- <nav aria-label="Page navigation">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item disabled">
+                                <a class="page-link page-link-prev" href="#" aria-label="Previous" tabindex="-1"
+                                    aria-disabled="true">
+                                    <span aria-hidden="true"><i class="icon-long-arrow-left"></i></span>Prev
+                                </a>
+                            </li>
+                            <li class="page-item active" aria-current="page"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item-total">of 6</li>
+                            <li class="page-item">
+                                <a class="page-link page-link-next" href="#" aria-label="Next">
+                                    Next <span aria-hidden="true"><i class="icon-long-arrow-right"></i></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav> -->
+
+                </div><!-- End .col-lg-9 -->
+
+
+                <aside class="col-lg-3 order-lg-first">
+                    <div class="widget widget-clean">
+                        <label>Filters:</label>
+                        <a href="{% url 'usershop' %}" class="sidebar">Clean All</a>
+                    </div><!-- End .widget widget-clean -->
+                    <form method="post" action="{% url 'filter_products'%}">
+                        {% csrf_token %}
+                        <div class="form-group">
+                          <label for="category">Category:</label>
+                          <select class="form-control" id="category" name="category">
+                            <option value="">All</option>
+                            {% for category in category %}
+                            <option value="{{ category.category_name }}"
+                              {% if category.category_name == categorys %} selected {% endif %}>
+                              {{ category.category_name }}</option>
+                            {% endfor %}
+                          </select>
+                        </div>
+                        <div class="form-group">
+
+                            <label for="category">Size:</label>
+                            <select class="form-control" id="sizes" name="sizes">
+                              <option value="">All</option>
+                              {% for sizes in sizevar %}
+                              <option value="{{ sizes }}"
+                              {% if sizes == size %} selected {% endif %}>
+                              {{sizes}}</option>
+                              {% endfor %}
+                            </select>
+
+
+
+                          <!-- <label>Size:</label>
+                          {% for sizes in sizevar %}
+                          <div class="form-check">
+                            <input class="form-check-input" type="radio" name="sizes" id="{{ sizes }}"
+                              value="{{ sizes }}" {% if sizes == size %}checked{% endif %}>
+                            <label class="form-check-label" for="{{ sizes }}" style="font-weight: 600;">
+                              {{ sizes}}
+                            </label>
+                          </div>
+                          {% endfor %} -->
+                        </div>
+                        <div class="form-group">
+                          <label for="min_price">Min Price:</label>
+                          <input type="number" class="form-control" id="min_price" name="min_price"
+                            value="{{ min_price|default_if_none:'' }}">
+                        </div>
+                        <div class="form-group">
+                          <label for="max_price">Max Price:</label>
+                          <input type="number" class="form-control" id="max_price" name="max_price"
+                            value="{{ max_price|default_if_none:'' }}">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Filter</button>
+                      </form>
+
+                </aside><!-- End .col-lg-3 -->
+
+
+            </div><!-- End .row -->
+        </div><!-- End .container -->
+    </div><!-- End .page-content -->
+</main><!-- End .main -->
+
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/smoothness/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+
+
+<!-- <script>
+    $(function() {
+      var priceRange = $("#price-range");
+      var priceSlider = $("#price-slider");
+      
+      // Initialize the slider widget
+      priceRange.slider({
+        range: true,
+        min: 0,
+        max: 100,
+        values: [0, 100],
+        slide: function(event, ui) {
+          // Update the price range display whenever the slider is moved
+          priceSlider.text("$" + ui.values[0] + " - $" + ui.values[1]);
+        }
+      });
+      
+      // Set the initial price range display
+      priceSlider.text("$" + priceRange.slider("values", 0) + " - $" + priceRange.slider("values", 1));
+    });
+  </script> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 
+<select name="category" id="category" multiple>
+    {% for category in category %}
+    <option value="{{ category.slug }}">{{ category.category_name }}</option>
+    {% endfor %}
+</select> -->
+
+
+
+<!-- <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const categorySelect = document.getElementById('category');
+        const productList = document.getElementById('product-list');
+        categorySelect.addEventListener('change', function (event) {
+            const categoryIds = Array.from(categorySelect.selectedOptions, option => option.value);
+            const url = `/products/?category=${categoryIds.join(',')}`;
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    const products = data.products;
+                    let productHtml = '';
+                    for (let i = 0; i < products.length; i++) {
+                        const product = products[i];
+                        productHtml += `<li>${product.name} - ${product.description} - ${product.price}</li>`;
+                    }
+                    productList.innerHTML = productHtml;
+                });
+        });
+    });
+</script> -->
+
+<script src="/media/assets/js/searchfunc.js"></script> 
+{% endblock %}

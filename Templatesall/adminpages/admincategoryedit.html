@@ -1,0 +1,377 @@
+{% extends 'adminpages/adminheader.html' %}
+
+
+{% block title %} SHOPPERS Admin HOME {% endblock %}
+
+{% block body %}
+
+
+
+
+<div class="col-lg-6">
+    <div class="card">
+        <div class="card-header">
+            <strong>Basic Form</strong> Elements
+        </div>
+        <div class="card-body card-block">
+            <form action="#" method="post" enctype="multipart/form-data" class="form-horizontal">
+                <div class="row form-group">
+                    <div class="col col-md-3"><label for="text-input" class=" form-control-label">Text Input</label>
+                    </div>
+                    <div class="col-12 col-md-9"><input type="text" id="text-input" name="text-input" placeholder="Text"
+                            class="form-control"><small class="form-text text-muted">This is a help text</small></div>
+                </div>
+                <div class="row form-group">
+                    <div class="col col-md-3"><label for="file-input" class=" form-control-label">File input</label>
+                    </div>
+                    <div class="col-12 col-md-9"><input type="file" id="file-input" name="file-input"
+                            class="form-control-file"></div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<!-- Button trigger modal -->
+
+<button type="button" class="btn btn-secondary mb-1" data-toggle="modal" data-target="#mediumModal">
+    Medium
+</button>
+
+
+
+
+
+
+
+
+
+<div class="modal fade" id="mediumModal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="mediumModalLabel">Medium Modal</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="card">
+                    <div class="card-body card-block">
+                        <form action="#" method="post" enctype="multipart/form-data" class="form-horizontal">
+                            <div class="row form-group">
+                                <div class="col col-md-3"><label for="text-input" class=" form-control-label">Product name</label>
+                                </div>
+                                <div class="col-12 col-md-9"><input type="text" id="text-input" name="text-input"
+                                        placeholder="Product name" class="form-control">
+                                </div>
+                            </div>
+                           
+                            <div class="row form-group">
+                                <div class="col col-md-3"><label for="select"
+                                        class=" form-control-label">Category</label></div>
+                                <div class="col-12 col-md-9">
+                                    <select name="select" id="select" class="form-control" required>
+                                        <option value="0">Please select</option>
+                                        <option value="1">Option #1</option>
+                                        <option value="2">Option #2</option>
+                                        <option value="3">Option #3</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3"><label for="select"
+                                        class=" form-control-label">Size variant</label></div>
+                                <div class="col-12 col-md-9">
+                                    <select name="select" id="select" class="form-control" required>
+                                        <option value="0">Please select</option>
+                                        <option value="1">Option #1</option>
+                                        <option value="2">Option #2</option>
+                                        <option value="3">Option #3</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3"><label for="text-input" class=" form-control-label">Price</label>
+                                </div>
+                                <div class="col-12 col-md-9"><input type="number" id="text-input" name="text-input"
+                                        placeholder="Price" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col col-md-3"><label for="textarea-input" class=" form-control-label">Product desription</label></div>
+                                <div class="col-12 col-md-9"><textarea name="textarea-input" id="textarea-input" rows="9" placeholder="Product desription" class="form-control"></textarea></div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3"><label for="file-multiple-input" class=" form-control-label">Multiple File input</label></div>
+                                <div class="col-12 col-md-9"><input type="file" id="file-multiple-input" name="file-multiple-input" multiple="" class="form-control-file"></div>
+                            </div>
+
+
+                        </form>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary">Confirm</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- cart html import -->
+
+<div class="container main">
+
+
+    <div class="profile">
+      <div class="container">
+
+        <section class="h-100 h-custom" style="background-color: #ffffff;">
+          <div class="container py-5 h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+              <div class="col-12">
+                <br><br><br>
+                <div class="card card-registration card-registration-2" style="border-radius: 15px;">
+                  <div class="card-body p-0">
+                    <div class="row g-0">
+                      <div class="col-lg-8">
+                        <div class="p-5">
+
+                          <div class="d-flex justify-content-between align-items-center mb-5">
+                            <h1 class="fw-bold mb-0 text-black">Shopping Cart</h1>
+                            <h6 class="mb-0 text-muted">
+                             
+                            </h6>
+                          </div>
+                          <hr class="my-4">
+                         
+                           
+                              <form action="/checkout" method="post">
+                                <div class="row mb-4 d-flex justify-content-between align-items-center ">
+                                  <div class="col-md-2 col-lg-2 col-xl-2">
+                                    <img src="/images/assets/images/hero_1.jpg" class="img-fluid rounded-3"
+                                      style="width: auto;height: auto;">
+                                  </div>
+                                  <div class="col-md-3 col-lg-3 col-xl-3">
+                                    <!-- <h6 class="text-muted">   </h6>  -->
+                                    <h6 class="text-black mb-0">
+                                      
+                                    </h6>
+                                    <br>
+                                    
+                                      <h6 class="mb-0" style="color:red">out of stock</h6>
+                                      
+                                  </div>
+
+                                  <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
+                                    <!-- Minus button  -->
+                                    <a class="btn btn-primary text-white"
+                                      onclick="this.parentNode.querySelector('input[type=number]').stepDown();validateData('2')">
+                                      
+                                      &nbsp;-&nbsp;</a>&nbsp;&nbsp;
+
+                                    <div class="form-outline">
+                                      <input style="width: 5rem;" class="form-control" type="number"
+                                        id="2" min="1" name="quantity"
+                                        pattern="2" max="4" value="1"
+                                        onchange="validateData('2')" />
+                                      <span id="price_text_2" hidden>
+                                        667 
+                                      </span>
+                                    </div>
+                                    &nbsp;&nbsp;
+                                    <!-- plus button  -->
+                                    <a class="btn btn-primary text-white"
+                                      onclick="this.parentNode.querySelector('input[type=number]').stepUp();validateData('2')">
+                                      &nbsp;+&nbsp; </a>
+                                    <div class="form-outline">
+                                      <div class="fs-lg text-accent pt-2 price">
+                                        <div id="get">
+                                          <p id="actual_price_2" hidden="">
+                                            667
+                                          </p>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+
+                                    <h6 class="mb-0">&nbsp;&nbsp;667
+                                    </h6>
+                                  </div>
+                                  <div class="col-md-1 col-lg-1 col-xl-1 text-end">
+                                    <button style="border:none"
+                                      onclick="removeCartProduct('2')"> <a href=""
+                                        class="text-muted">
+                                        <i class="fa fa-trash-o"
+                                          style="font-size:36px;color:rgb(190, 0, 0)"></i></a></button>
+
+                                  </div>
+                                </div>
+                                
+
+                                    <img src="/img/cart.webp" alt="" style="width: 10vw; height: 10vh;">
+                                    <span>Missing Cart items?</span>
+                                    
+                                      <hr class="my-4">
+
+
+
+
+
+                                      <div class="pt-5">
+                                        <h6 class="mb-0"><a href="#" class="text-body"><i
+                                              class="fas fa-long-arrow-alt-left me-2"></i>Back to shop</a>
+                                        </h6>
+                                      </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-4 bg-grey">
+                        <div class="p-5">
+                          <h3 class="fw-bold mb-5 mt-2 pt-1">Summary</h3>
+                          <hr class="my-4">
+
+                          <div class="d-flex justify-content-between mb-4">
+                            <h5 class="text-uppercase">items 4
+                            </h5>
+                            <h3 id="subtotal" class="fw-normal">
+                             1111
+                            </h3>
+                            <h5></h5>
+                          </div>
+
+                          <h5 class="text-uppercase mb-3">Shipping</h5>
+
+
+
+                          <hr class="my-4">
+
+                          <div class="d-flex justify-content-between mb-5">
+                            <h5 class="text-uppercase">Total price</h5>
+                            <h2 id="sub" class="fw-normal">
+                              2000
+                            </h2>
+                          </div>
+                          
+                            <!-- <button type="button" class="btn btn-primary btn-lg btn-block disabled ">
+                              Checkout
+                            </button> -->
+
+                              <button type="submit" class="btn btn-primary btn-lg btn-block">
+                                Checkout
+                              </button>
+                              </form>
+                             
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+
+      </div>
+    </div>
+  </div>
+
+
+
+  <form>
+    <div id="input-group-1">
+      <input type="text" name="group1-input1[]" value="">
+      <input type="text" name="group1-input2[]" value="">
+    </div>
+    <button type="button" onclick="addInputGroup()">Add input group</button>
+    <button type="submit">Submit</button>
+  </form>
+  
+  <script>
+  function addInputGroup() {
+    var inputGroups = document.querySelectorAll("[id^='input-group-']");
+    var lastInputGroup = inputGroups[inputGroups.length - 1];
+    var newInputGroup = lastInputGroup.cloneNode(true);
+    var inputs = newInputGroup.querySelectorAll("input");
+    inputs.forEach(function(input) {
+      input.value = "";
+      input.name = input.name.replace(/\[(\d+)\]/, function(match, p1) {
+        var newIndex = parseInt(p1) + 1;
+        return "[" + newIndex + "]";
+      });
+    });
+    lastInputGroup.after(newInputGroup);
+  }
+  </script>
+  
+  
+  
+
+    <script>
+      async function removeCartProduct(cartProductid) {
+        let response = await fetch('/removeproduct/' + cartProductid, {
+          method: 'DELETE', headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        let res = await response.json();
+        if (res == "success") {
+          window.location.reload()
+
+        }
+      }
+
+
+
+      function validateData(id, index) {
+        const element = document.getElementById(id)
+        const priceText = document.getElementById('price_text_' + id)
+        const price = document.getElementById('actual_price_' + id)
+        const subtotal = document.getElementById('subtotal')
+        const sub = document.getElementById('sub')
+        if (Number(element.value) > Number(element.max))
+          element.value = element.max
+        const rate = priceText.innerHTML
+        priceText.innerHTML = Number(price.innerHTML) * Number(element.value)
+        const diff = Number(priceText.innerHTML) - Number(rate)
+        subtotal.innerHTML = Number(diff) + Number(subtotal.innerHTML),
+          sub.innerHTML = Number(diff) + Number(sub.innerHTML)
+
+
+
+      }
+      async function proceedTocheckout() {
+        const quantity = Object.values(document.getElementsByName('quantity')).map((cartProduct) => (
+          {
+            cartProductid: cartProduct.id,
+            quantity: cartProduct.value
+          }
+        ))
+
+        let response = await fetch('/checkout', {
+          method: 'post',
+          headers: { 'Content-Type': 'application/json', },
+          body: JSON.stringify(quantity)
+        });
+
+      }
+
+
+    </script>
+
+
+{% endblock %}

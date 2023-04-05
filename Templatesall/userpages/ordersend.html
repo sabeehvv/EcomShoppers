@@ -1,0 +1,66 @@
+{% extends 'userpages/userheader.html'%}
+
+{% block title %} SHOPPERS HOME {% endblock %}
+
+{% block body %}
+
+
+<main class="main">
+  <div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
+    <div class="container">
+      <h1 class="page-title">Order is success<span>Order id : {{oder.orderid}} </span> <span>payment method :
+          {{oder.payment.payment_method}}</span>
+        {% if oder.payment.payment_id %}<span>Payment Id : {{oder.payment.payment_id}}</span>{% endif %} </h1>
+    </div><!-- End .container -->
+  </div><!-- End .page-header -->
+  <nav aria-label="breadcrumb" class="breadcrumb-nav">
+    <div class="container">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'userhome' %}">Home</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'usershop' %}">Shop</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Order success</li>
+      </ol>
+    </div><!-- End .container -->
+  </nav><!-- End .breadcrumb-nav -->
+
+  <div class="page-content">
+    <div class="container">
+      <table class="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <tr>
+            <th style="font-weight: bold;">First Name</td>
+            <td>{{address.firstname}}</td>
+          </tr>
+          <tr>
+            <th style="font-weight: bold;">Last Name</td>
+            <td>{{address.lastname}}</td>
+          </tr>
+          <tr>
+            <th style="font-weight: bold;">Phone Number</td>
+            <td>{{address.phonenumber}}</td>
+          </tr>
+          <tr>
+            <th style="font-weight: bold;">Adress</td>
+            <td>{{address.housename}} <br> {{address.town}},{{address.city}} <br>pincode : {{address.pincode}} </td>
+          </tr>
+
+          <!-- for loop end -->
+
+          <h3 class="text-primary">order will send to this Adress</h3>
+
+        </tbody>
+      </table>
+    </div><!-- End .container -->
+  </div><!-- End .page-content -->
+</main><!-- End .main -->
+
+
+
+{% endblock %}

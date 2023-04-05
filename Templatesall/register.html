@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register</title>
+    <style>
+        body{
+            background-color: rgb(193, 156, 228);
+        }
+       form {
+  position: fixed; /* Stay in place */
+  left: 30%;
+  top: 10%;
+  width: 300px; /* Full width */
+  height: 350px; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(55, 56, 95); /* Fallback color */
+  padding: 60px;
+  color: aliceblue;
+}
+input[type=text], input[type=password] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+input[type=email] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+input[type=submit]{
+    margin-top:50px;
+    width:100px;
+    height:50px;
+    font-size: 20px;
+    border-radius: 20px;
+    background-color: rgb(33, 70, 70);
+    color: wheat;
+}
+.radio-box{
+    margin-top:-30px;
+}
+h2{
+    margin-top: -30px;
+    color: rgb(213, 217, 221);
+}
+    </style>
+</head>
+<body>
+   
+    <form action="register" method="post">
+        <h2>REGISTRATION FORM</h2>
+        {% csrf_token %}
+        <label for="user_name">User name:</label>
+        <input id="user_name" type="email" name="user_name">
+        <br>
+        <label for="phone_number">Phone Number:</label>
+        <input id="phone_number" type="text" name="phone_number">
+        <br>
+        <h3>OTP verification method:</h3>
+        <br>
+        <div class="radio-box">
+        <label for="methodOtpSms">SMS:</label>
+        <input type="radio" name="methodOtp" id="methodOtpSms" value="methodOtpSms">
+
+        <label for="methodOtpWhatsapp">WhatsApp:</label>
+        <input type="radio" name="methodOtp" id="methodOtpWhatsapp" value="methodOtpWhatsapp">
+    </div>
+        <input type="submit" value="login">
+        </form>
+</body>
+</html>

@@ -1,0 +1,322 @@
+{% extends 'adminpages/adminheader.html' %}
+
+
+{% block title %} SHOPPERS Admin Category {% endblock %}
+
+{% block body %}
+
+
+<div class="content">
+    <div class="animated fadeIn">
+        <div class="row">
+
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <strong class="card-title">Category</strong>
+                    </div>
+                    <div class="card-header">
+                        <button type="button" class="btn btn-success mb-1" data-toggle="modal"
+                            data-target="#Addcategory">
+                            Add Category
+                        </button>
+                    </div>
+
+
+
+
+
+
+                    <div class="card-body">
+                        <table id="bootstrap-data-table" class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>S.No</th>
+                                    <th>Category Name</th>
+                                    <th>Category Image</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                {% for category in categorys %}
+                                <!-- forloop start -->
+                                <tr>
+                                    <td>{{forloop.counter}}</td>
+                                    <td>{{category.category_name}}</td>
+                                    <td class="">
+                                        <div class="user-area ">
+                                            <a href="/media/{{category.category_image}}">
+                                                <p>
+                                                    Click Here
+                                                </p>
+                                            </a>
+                                        </div>
+
+                                        <div class="user-area ">
+                                            <img class="user-avatar" src="/media/{{category.category_image}}" alt="">
+                                        </div>
+
+                                    </td>
+                                    <td>
+                                        <div class="user-area ">
+                                            <button type="button" class="btn btn-danger mb-1" data-toggle="modal"
+                                                data-target="#delete{{category.slug}}">
+                                                Delete
+                                            </button>
+                                        </div>
+                                        <div class="user-area ">
+                                            <button type="button" class="btn btn-secondary mb-1" data-toggle="modal"
+                                                data-target="#{{category.slug}}">
+                                                Edit Category
+                                            </button>
+                                        </div>
+                                    </td>
+
+
+                                    <!-- modal edit start -->
+                                    <div class="modal fade" id="{{category.slug}}" tabindex="-1" role="dialog"
+                                        aria-labelledby="mediumModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-lg" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="mediumModalLabel">Update Category</h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form action="{% url 'editcategory' %}" method="post" enctype="multipart/form-data"
+                                                        class="form-horizontal">
+                                                        {% csrf_token %}
+                                                        <div class="card">
+                                                            <div class="card-body card-block">
+
+                                                                <div class="row form-group">
+                                                                    <div class="col col-md-3"><label for="text-input"
+                                                                            class=" form-control-label">Category
+                                                                            Name</label>
+                                                                    </div>
+
+                                                                    <input type="hidden" name="slug"
+                                                                        value="{{category.slug}}">
+
+
+                                                                    <div class="col-12 col-md-9">
+                                                                        <input type="text" id="text-input"
+                                                                            name="Category_Name"
+                                                                            placeholder="Category Name"
+                                                                            value="{{category.category_name}}"
+                                                                            class="form-control" required>
+
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row form-group">
+
+                                                                    <div class="col col-md-3">
+
+                                                                        <label for="file-input"
+                                                                            class=" form-control-label">category
+                                                                            image</label>
+                                                                    </div>
+                                                                    <div class="col-12 col-md-9">
+                                                                        <a href="/media/{{category.category_image}}"><small
+                                                                                class="form-text text-muted">{{category.category_image}}</small></a>
+                                                                        <input type="file" id="imageedit" onchange="previewImageedit()"
+                                                                            name="file-input" vaclass="form-control-file">
+                                                                    </div>
+                                                                </div>
+                                                                <div>
+                                                                    <img id="previewedit" src="">
+                                                                </div>
+
+                                                            </div>
+                                                            <button type="submit" class="btn btn-warning">Save
+                                                                Category</button>
+                                                        </div>
+
+                                                    </form>
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-dismiss="modal">Cancel</button>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- modal edit end -->
+
+
+                                    <!--modal delete start -->
+                                    <div class="modal fade" id="delete{{category.slug}}" tabindex="-1" role="dialog"
+                                        aria-labelledby="mediumModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-lg" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="mediumModalLabel" style="color: rgb(255, 255, 0);">warning</h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form action="{% url 'deletecategory' %}" method="post"
+                                                    enctype="multipart/form-data" class="form-horizontal">
+                                                    {% csrf_token %}
+                                                    <div class="card">
+                                                        <div class="card-body card-block">
+
+                                                            <input type="hidden" name="slug"
+                                                                value="{{category.slug}}">
+                                                            <p style="color: red;">Are you sure you want to delete this Category?, this will delete all related products, think one day and take action tomorrow</p>
+                                                        </div>
+                                                        <button type="submit" class="btn btn-secondary"
+                                                            style="color: brown; font-weight: bolder;">Yes Delete
+                                                        </button>
+                                                    </div>
+
+                                                </form>
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-dismiss="modal">Okay</button>
+                                                    <!-- <button type="button" class="btn btn-primary">Okay</button> -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- modal delete end -->
+
+                                </tr>
+                                <!-- for loop end -->
+                                {% endfor %}
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div><!-- .animated -->
+</div><!-- .content -->
+
+<!-- modal category add start -->
+<div class="modal fade" id="Addcategory" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="mediumModalLabel">Add Category</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="{% url 'addcategory' %}" method="post" enctype="multipart/form-data"
+                    class="form-horizontal">
+                    {% csrf_token %}
+                    <div class="card">
+                        <div class="card-body card-block">
+
+                            <div class="row form-group">
+                                <div class="col col-md-3"><label for="text-input" class=" form-control-label">Category
+                                        Name</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="text" id="text-input" name="Category_Name" placeholder="Category Name"
+                                        value="" class="form-control" required>
+
+                                </div>
+                            </div>
+                            <div class="row form-group">
+
+                                <div class="col col-md-3">
+
+                                    <label for="file-input" class=" form-control-label">category
+                                        image</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <a href="#"><small class="form-text text-muted">Add your image</small></a>
+                                    <input type="file" id="image" onchange="previewImage()" name="file-input" class="form-control-file" required>
+                                </div>
+                            </div>
+
+                            <div>
+                                <img id="preview" src="">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-warning">Save
+                            Category</button>
+                    </div>
+
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- modal category add end -->
+
+<script>
+    function previewImage() {
+        const preview = document.getElementById('preview');
+        const file = document.getElementById('image').files[0];
+        const reader = new FileReader();
+
+        reader.addEventListener("load", function () {
+            preview.src = reader.result;
+        }, false);
+
+        if (file) {
+            reader.readAsDataURL(file);
+        }
+    }
+</script> 
+
+<script>
+    function previewImageedit() {
+        const preview = document.getElementById('previewedit');
+        const file = document.getElementById('imageedit').files[0];
+        const reader = new FileReader();
+
+        reader.addEventListener("load", function () {
+            preview.src = reader.result;
+        }, false);
+
+        if (file) {
+            reader.readAsDataURL(file);
+        }
+    }
+</script> 
+
+<script src="/media/assetsadmin/js/lib/data-table/datatables.min.js"></script>
+<script src="/media/assetsadmin/js/lib/data-table/dataTables.bootstrap.min.js"></script>
+<script src="/media/assetsadmin/js/lib/data-table/dataTables.buttons.min.js"></script>
+<script src="/media/assetsadmin/js/lib/data-table/buttons.bootstrap.min.js"></script>
+<script src="/media/assetsadmin/js/lib/data-table/jszip.min.js"></script>
+<script src="/media/assetsadmin/js/lib/data-table/vfs_fonts.js"></script>
+<script src="/media/assetsadmin/js/lib/data-table/buttons.html5.min.js"></script>
+<script src="/media/assetsadmin/js/lib/data-table/buttons.print.min.js"></script>
+<script src="/media/assetsadmin/js/lib/data-table/buttons.colVis.min.js"></script>
+<script src="/media/assetsadmin/js/init/datatables-init.js"></script>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#bootstrap-data-table-export').DataTable();
+    });
+</script>
+
+{% endblock %}
