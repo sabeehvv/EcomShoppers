@@ -15,3 +15,6 @@ searchInput.addEventListener('keyup', function(event) {
     }
   });
 });
+
+
+
