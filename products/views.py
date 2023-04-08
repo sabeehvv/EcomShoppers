@@ -291,8 +291,8 @@ def paymenthandler(request):
 
                     for x in cart_items:
                         x.delete()
-
-                        # order notification
+                    
+                    # order notification
                     message = f"New order from {oder.user}. Order Id {oder.orderid}. Order total amount {oder.ordertotal}. Payment Done"
                     channel_layer = get_channel_layer()
                     async_to_sync(channel_layer.group_send)(
@@ -329,6 +329,8 @@ def order_return(request, id):
     order = OrderProduct.objects.get(id=id)
     quantitys = SizeVariant.objects.get(uid=order.sizevariant.uid)
     acc = CustomUser.objects.get(email=request.user)
+    if acc.wallet is None:
+        acc.wallet = 0
     acc.wallet += order.price
     acc.save()
     order.status = "Returned"
